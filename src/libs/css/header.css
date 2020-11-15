@@ -1,0 +1,15 @@
+
+.add {
+    border-radius: 50%;
+    border: none;
+    background-color: #37db42;
+    color: white;
+    display: flex;
+    align-items: center;
+    height: 80%;
+    width: auto;
+}
+
+.add i {
+    font-weight: bold;
+}
