@@ -1,5 +1,6 @@
 import React from 'react';
 import 'material-icons';
+import '../css/addQuestion.css';
 import AddTextQuestion from './addTextQuestion.js';
 
 class QuizBuilder extends React.Component {
@@ -28,7 +29,9 @@ class QuizBuilder extends React.Component {
         <div>
             <h2 className="builderHeader">Quiz Builder</h2>
             <div className="questionDiv" id="newQuestionContainer"></div>
+            <form className="addQForm">
             {children}
+            </form>           
             <button type="button" id="addQuestion" onClick={this.addTextQuestion}><i className="material-icons">add</i> Question</button>
             
         </div>

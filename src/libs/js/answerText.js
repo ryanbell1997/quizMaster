@@ -9,7 +9,7 @@ class AnswerText extends React.Component {
         return (
             <div className="input">
                 <label htmlFor="answer1">Answer {this.props.qNo}</label>
-                <input name="answer1" type="text" id="answer"></input>
+                <input name="answer1    " type="text" id={`answer_${this.props.qNo}`}></input>
                 <input type="radio" name="answerCheck" id="answerCheck" ></input>
             </div>
         )
