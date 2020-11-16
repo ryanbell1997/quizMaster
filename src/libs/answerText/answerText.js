@@ -1,10 +1,13 @@
 import React from 'react';
+import './answerText.css';
+import 'material-icons';
 
 class AnswerText extends React.Component {
     constructor(props){
         super(props);
         this.handleDeleteAnswer = this.handleDeleteAnswer.bind(this);
         this.handleUpdateAnswer = this.handleUpdateAnswer.bind(this);
+        this.handleMarkCorrectAnswer = this.handleMarkCorrectAnswer.bind(this);
     }
 
     handleDeleteAnswer() {
@@ -18,16 +21,20 @@ class AnswerText extends React.Component {
         updateAnswer(index, answerText);
     }
 
+    handleMarkCorrectAnswer(){
+        const { markCorrectAnswer, index } = this.props;
+        markCorrectAnswer(index);
+    }
+
 
     
     render(){
-        const { index, answer } = this.props;
-        const placeholderText = "Enter answer here...";
+        const { index, answer, questionIndex } = this.props;
+        const placeholderText = `Enter answer ${index + 1} here...`;
         return (
             <div className="input">
-                <label htmlFor="answer">Answer {index+1}:</label>
-                <input name="answer" type="text" placeholder={placeholderText} onChange={this.handleUpdateAnswer} value={answer}></input>
-                <input type="radio" name="answerCheck" id="answerCheck" ></input>
+                <input name={`answer_${index}`} type="text" placeholder={placeholderText} onChange={this.handleUpdateAnswer} className="answerInput" value={answer.text}></input>
+                <button type="button" className="isCorrectButton" id={`answerCheck_${questionIndex}`} onClick={this.handleMarkCorrectAnswer}><i className="material-icons">done</i></button>
                 <button type="button" onClick={this.handleDeleteAnswer}>X</button>
             </div>
         )

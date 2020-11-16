@@ -1,0 +1,60 @@
+.addAnswerButton {
+    width: 30%;
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.qContainer {
+    height: auto;
+     width: 90%;
+     margin: 0px auto;
+     background-color: slategray;
+     border-radius: 15px;
+} 
+
+.qContainer{
+    padding: 1em 0em 1em 0em;
+    margin-top: 2.5em;
+}
+
+
+@media (min-width: 576px) {  }
+
+
+@media (min-width: 768px) {  }
+
+
+@media (min-width: 992px) {  }
+
+
+@media (min-width: 1200px) {
+    .addQForm {
+        padding-top: 0.1em;
+    }
+    
+    .input {
+        width: 90%;
+    }
+
+   .containers {
+       width: 48%;
+       display: inline-flex;
+       flex-direction: row;
+   }
+
+   .questionContainer {
+       justify-content: center;
+   }
+
+   .questionInput {
+       width: 70%;
+   }
+   
+   .answerContainer {
+       flex-direction: column;
+       justify-content: center;
+   }
+ }

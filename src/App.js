@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import Header from './libs/js/header.js';
-import QuizBuilder from './libs/js/quizBuilder.js';
+import Header from './libs/header/header.js';
+import QuizBuilder from './libs/quizBuilder/quizBuilder.js';
 
 function App() {
   return (

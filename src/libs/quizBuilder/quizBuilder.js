@@ -1,7 +1,9 @@
 import React from 'react';
 import 'material-icons';
-import '../css/addQuestion.css';
-import AddTextQuestion from './addTextQuestion.js';
+import './quizBuilder.css';
+import TextQuestion from '../textQuestion/textQuestion.js';
+import $ from 'jquery';
+import AjaxPOST from '../js/ajaxPOST.js';
 
 class QuizBuilder extends React.Component {
     constructor(props){
@@ -15,6 +17,9 @@ class QuizBuilder extends React.Component {
         this.updateAnswer = this.updateAnswer.bind(this);
         this.removeQuestion = this.removeQuestion.bind(this);
         this.updateQuestion = this.updateQuestion.bind(this);
+        this.printQuestion = this.printQuestion.bind(this);
+        this.markCorrectAnswer = this.markCorrectAnswer.bind(this);
+        this.saveQuiz = this.saveQuiz.bind(this);
     }
 
     addTextQuestion() {
@@ -27,6 +32,17 @@ class QuizBuilder extends React.Component {
         this.setState({ questions });
     }
 
+    markCorrectAnswer(questionIndex, answerIndex){
+        let { questions } = this.state;
+        questions[questionIndex].answers.forEach(answer => {
+            answer.isCorrect = false;
+        })
+        if(!questions[questionIndex].answers[answerIndex].isCorrect){
+            questions[questionIndex].answers[answerIndex].isCorrect = true;
+            this.setState({ questions });
+        }
+    }
+
     removeQuestion(questionIndex){
         let { questions } = this.state;
         const questionsLen = questions.length;
@@ -37,9 +53,10 @@ class QuizBuilder extends React.Component {
         }  
     }
 
-    addAnswer(questionIndex, newAnswer) {
+    addAnswer(questionIndex) {
         let { questions } = this.state;
         //We get the specific questions object from state using the index (which is passed as prop), and then we add an answer to the answers array.
+        let newAnswer = { text: '', isCorrect: false };
         questions[questionIndex].answers.push(newAnswer);
         this.setState({ questions });
     }
@@ -55,7 +72,7 @@ class QuizBuilder extends React.Component {
 
     updateAnswer(questionIndex, answerIndex, answerText) {
         let { questions } = this.state;
-        questions[questionIndex].answers[answerIndex] = answerText;
+        questions[questionIndex].answers[answerIndex].text = answerText;
         this.setState({ questions });
     }
 
@@ -65,6 +82,32 @@ class QuizBuilder extends React.Component {
         this.setState({ questions });
     }
 
+    printQuestion(){
+        const { questions } = this.state;
+        const questionLen = questions.length;
+        if(questionLen){
+            console.log(questions);
+        }
+    }
+    
+    saveQuiz(){
+        const { questions } = this.state;
+        $.ajax({
+            url: '../py/quizCompiler.py',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                questions
+            },
+            success: (response) => {
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
+    }
+
     render(){
         let questionChildren = [];
 
@@ -72,7 +115,7 @@ class QuizBuilder extends React.Component {
 
         let i=0;
         questions.forEach(question => {
-            questionChildren.push(<AddTextQuestion 
+            questionChildren.push(<TextQuestion 
                 key={`q_${i}`}
                 questionIndex={i} 
                 question={question} 
@@ -80,7 +123,8 @@ class QuizBuilder extends React.Component {
                 deleteAnswer={this.deleteAnswer}
                 updateAnswer={this.updateAnswer}
                 removeQuestion={this.removeQuestion} 
-                updateQuestion={this.updateQuestion} />);
+                updateQuestion={this.updateQuestion}
+                markCorrectAnswer={this.markCorrectAnswer} />);
             i++
         })
 
@@ -90,8 +134,9 @@ class QuizBuilder extends React.Component {
                 <div className="questionDiv" id="newQuestionContainer"></div>
                 <form className="addQForm">
                 {questionChildren}
-                </form>           
                 <button type="button" id="addQuestion" onClick={this.addTextQuestion}><i className="material-icons">add</i> Question</button>
+                </form> 
+                <AjaxPOST saveQuiz={this.saveQuiz} />          
 
             </div>
         )

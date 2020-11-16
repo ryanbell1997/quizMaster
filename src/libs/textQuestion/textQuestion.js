@@ -1,8 +1,8 @@
 import React from 'react';
-import '../css/addQuestion.css';
-import AnswerText from './answerText.js';
+import './textQuestion.css';
+import AnswerText from '../answerText/answerText.js';
 
-class AddTextQuestion extends React.Component {
+class TextQuestion extends React.Component {
     constructor(props) {
         super(props);
         this.handleAddAnswer = this.handleAddAnswer.bind(this);
@@ -10,6 +10,7 @@ class AddTextQuestion extends React.Component {
         this.handleUpdateAnswer = this.handleUpdateAnswer.bind(this);
         this.handleRemoveQuestion = this.handleRemoveQuestion.bind(this);
         this.handleUpdateQuestion = this.handleUpdateQuestion.bind(this);
+        this.handleMarkCorrectAnswer = this.handleMarkCorrectAnswer.bind(this);
     }
 
     // questionIndex={i} question={this.state.question[i]} deleteAnswer={this.deleteAnswer} addAnswer={this.addAnswer}
@@ -40,11 +41,14 @@ class AddTextQuestion extends React.Component {
         updateQuestion(questionIndex, questionText);
     }
 
-    
-    
+    handleMarkCorrectAnswer(answerIndex){
+        const { questionIndex, markCorrectAnswer } = this.props;
+        markCorrectAnswer(questionIndex, answerIndex);
+    }
+
     render(){
 
-        const { question, updateAnswer, questionIndex } = this.props;
+        const { question, questionIndex } = this.props;
         const { text, answers } = question;
         let answersLen = 0
         if (question && answers) {
@@ -52,8 +56,8 @@ class AddTextQuestion extends React.Component {
         }
 
         const answerButton = answersLen < 4 ? 
-            <button type="button" onClick={this.handleAddAnswer}><i className="material-icons">add</i>Answer</button> : 
-            <button type="button">Max of 4 answers</button>
+            <button type="button" onClick={this.handleAddAnswer} className="addAnswerButton"><i className="material-icons">add</i>Answer</button> : 
+            <button type="button" className="addAnswerButton">Max of 4 answers</button>
 
         let answersEls = [];
         let i=0;
@@ -63,9 +67,11 @@ class AddTextQuestion extends React.Component {
                     <AnswerText
                     key={`q_${questionIndex}_a_${i}`} 
                     index={i} 
-                    answer={answer} 
+                    answer={answer}
+                    questionIndex={questionIndex} 
                     deleteAnswer={this.handleDeleteAnswer} 
-                    updateAnswer={this.handleUpdateAnswer} />
+                    updateAnswer={this.handleUpdateAnswer}
+                    markCorrectAnswer={this.handleMarkCorrectAnswer} />
                     </div>);
                 i++;
             });
@@ -77,12 +83,13 @@ class AddTextQuestion extends React.Component {
                 <div className="questionContainer containers">
                         <h3 className="qNo">Question {this.props.questionIndex + 1}</h3>
                         <div className="input">
-                            <label htmlFor="question">Question:</label>
-                            <input name="question" type="text" id="question" placeholder={text} onChange={this.handleUpdateQuestion} value={text}></input>
+                            <label htmlFor={`question_${questionIndex}`}>Question:</label>
+                            <input name={`question_${questionIndex}`} type="text" id={`question_${questionIndex}`} placeholder={text} onChange={this.handleUpdateQuestion} value={text} className="questionInput"></input>
                         </div>
                 </div>
               
                 <div className="answerContainer containers">
+                    <h3 className="qNo">Answers</h3>
                     {answersEls}
                     {answerButton}
                     
@@ -93,4 +100,4 @@ class AddTextQuestion extends React.Component {
     }
 }
 
-export default AddTextQuestion;
+export default TextQuestion;
