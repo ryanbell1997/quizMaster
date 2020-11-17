@@ -1,0 +1,7 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "terminal.integrated.localEchoStyle": null,
+    "python.terminal.activateEnvironment": true,
+    "python.pythonPath": "API\\venv\\Scripts\\python.exe",
+}
