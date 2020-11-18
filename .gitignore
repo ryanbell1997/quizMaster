@@ -1,4 +1,6 @@
 node_modules
-venv
+venv/Scripts
+venv/Lib
 __pycache__
 Lib
+config.py

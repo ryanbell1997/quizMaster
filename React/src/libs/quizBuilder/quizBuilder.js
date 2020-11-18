@@ -2,14 +2,15 @@ import React from 'react';
 import 'material-icons';
 import './quizBuilder.css';
 import TextQuestion from '../textQuestion/textQuestion.js';
-import $ from 'jquery';
 import AjaxPOST from '../js/ajaxPOST.js';
+import IdDisplay from '../idDisplay/idDisplay.js';
 
 class QuizBuilder extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            questions: []
+            questions: [],
+            quizId: 0
         };
         this.addTextQuestion = this.addTextQuestion.bind(this);
         this.addAnswer = this.addAnswer.bind(this);
@@ -92,16 +93,19 @@ class QuizBuilder extends React.Component {
     
     saveQuiz(){
         const { questions } = this.state;
+        const requestObject = {questions};
         fetch('/storeQuiz', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(questions)
+            body: JSON.stringify(requestObject)
         })
             .then(res => res.json())
             .then((result) => {
-                console.log(result);
+                this.setState({
+                    quizID: result
+                })
             },
             (error) => {
                 console.log(error);
@@ -136,8 +140,8 @@ class QuizBuilder extends React.Component {
                 {questionChildren}
                 <button type="button" id="addQuestion" onClick={this.addTextQuestion}><i className="material-icons">add</i> Question</button>
                 </form> 
-                <AjaxPOST saveQuiz={this.saveQuiz} />          
-
+                <AjaxPOST saveQuiz={this.saveQuiz} />    
+                <IdDisplay quizID={this.state.quizID} />      
             </div>
         )
    }  
