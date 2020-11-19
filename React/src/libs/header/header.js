@@ -10,7 +10,6 @@ class Header extends React.Component {
       return (
         <nav className="navbar navbar-dark bg-primary">
           <a className="navbar-brand" href="index.html">QuizMaster</a>
-          <button type="button" className="add"><i className="material-icons">add</i></button>
         </nav>
       )
     }

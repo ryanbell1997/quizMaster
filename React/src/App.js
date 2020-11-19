@@ -1,13 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import Header from './libs/header/header.js';
-import QuizBuilder from './libs/quizBuilder/quizBuilder.js';
+import MainContainer from './libs/mainContainer/mainContainer.js';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <QuizBuilder />
+      <MainContainer />
     </div>
   );
 }

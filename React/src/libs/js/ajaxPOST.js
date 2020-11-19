@@ -5,7 +5,7 @@ class AjaxPOST extends React.Component {
         super(props);
         this.handlePrintQuestion = this.handlePrintQuestion.bind(this);
         this.handleSaveQuiz = this.handleSaveQuiz.bind(this);
-    }
+        this.handleChangeTask = this.handleChangeTask.bind(this);    }
 
 
     handlePrintQuestion(){
@@ -18,9 +18,15 @@ class AjaxPOST extends React.Component {
         saveQuiz();
     }
 
+    handleChangeTask(e){
+        const { changeTask } = this.props;
+        this.handleSaveQuiz();
+        changeTask(e.target.id)
+    }
+
     render() {
         return (
-            <h1 onClick={this.handleSaveQuiz}>AJAX Post</h1>
+            <button onClick={this.handleChangeTask} id="completeQuiz">Complete Quiz</button>
         )
     }
 }

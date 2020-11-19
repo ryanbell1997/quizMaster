@@ -3,14 +3,12 @@ import 'material-icons';
 import './quizBuilder.css';
 import TextQuestion from '../textQuestion/textQuestion.js';
 import AjaxPOST from '../js/ajaxPOST.js';
-import IdDisplay from '../idDisplay/idDisplay.js';
 
 class QuizBuilder extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             questions: [],
-            quizId: 0
         };
         this.addTextQuestion = this.addTextQuestion.bind(this);
         this.addAnswer = this.addAnswer.bind(this);
@@ -20,7 +18,8 @@ class QuizBuilder extends React.Component {
         this.updateQuestion = this.updateQuestion.bind(this);
         this.printQuestion = this.printQuestion.bind(this);
         this.markCorrectAnswer = this.markCorrectAnswer.bind(this);
-        this.saveQuiz = this.saveQuiz.bind(this);
+        this.saveQuiz = this.saveQuiz.bind(this)
+        this.handleSetQuizID = this.handleSetQuizID.bind(this);
     }
 
     addTextQuestion() {
@@ -103,13 +102,16 @@ class QuizBuilder extends React.Component {
         })
             .then(res => res.json())
             .then((result) => {
-                this.setState({
-                    quizID: result
-                })
+                this.handleSetQuizID(result);
             },
             (error) => {
                 console.log(error);
             })
+    }
+
+    handleSetQuizID(input){
+        const { setQuizID } = this.props;
+        setQuizID(input);
     }
 
     render(){
@@ -140,8 +142,7 @@ class QuizBuilder extends React.Component {
                 {questionChildren}
                 <button type="button" id="addQuestion" onClick={this.addTextQuestion}><i className="material-icons">add</i> Question</button>
                 </form> 
-                <AjaxPOST saveQuiz={this.saveQuiz} />    
-                <IdDisplay quizID={this.state.quizID} />      
+                <AjaxPOST saveQuiz={this.saveQuiz} changeTask={this.props.changeTask} />        
             </div>
         )
    }  
